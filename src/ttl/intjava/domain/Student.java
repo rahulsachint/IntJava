@@ -1,23 +1,26 @@
 package ttl.intjava.domain;
 
-public class Student {
+public class Student implements Comparable<Student>{
 
 	private int id;
 	private String name;
-	
-	public enum Status {
-		FULL_TIME,
-		PART_TIME,
-		HIBERNATING
-	}
-	
 	private Status status;
+
+	public enum Status {
+		FULL_TIME, PART_TIME, HIBERNATING
+	}
 
 	public Student() {
 		super();
 	}
 
-	public Student(int id, String name, Status status) {
+	public Student(String name, Status status) {
+		super();
+		this.name = name;
+		this.status = status;
+	}
+
+	private Student(int id, String name, Status status) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -28,7 +31,7 @@ public class Student {
 		return id;
 	}
 
-	public void setId(int id) {
+	private void setId(int id) {
 		this.id = id;
 	}
 
@@ -36,7 +39,7 @@ public class Student {
 		return name;
 	}
 
-	public void setName(String name) {
+	private void setName(String name) {
 		this.name = name;
 	}
 
@@ -44,7 +47,7 @@ public class Student {
 		return status;
 	}
 
-	public void setStatus(Status status) {
+	private void setStatus(Status status) {
 		this.status = status;
 	}
 
@@ -83,5 +86,40 @@ public class Student {
 	public String toString() {
 		return "Student [id=" + id + ", name=" + name + ", status=" + status + "]";
 	}
-	
+
+	public static class StudentBuilder {
+		private int id = -1;
+		private String name;
+		private Status status;
+		
+		public StudentBuilder id(int id) {
+			this.id = id;
+			return this;
+		}
+		
+		public StudentBuilder name(String name) {
+			this.name = name;
+			return this;
+		}
+
+		public StudentBuilder status(Status status) {
+			this.status = status;
+			return this;
+		}
+
+		public Student build() {
+			
+			if(id == -1) {
+				throw new RuntimeException("Id is required");
+					
+			}
+			return new Student(id, name, status);
+		}
+
+	}
+
+	@Override
+	public int compareTo(Student other) {
+		return this.id - other.id;
+	}
 }
