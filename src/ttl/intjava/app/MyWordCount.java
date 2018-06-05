@@ -79,10 +79,13 @@ public class MyWordCount {
         sortedMap.forEach((k, v) -> System.out.println(k + " : " + v));
 
         System.out.println("TOTAL UNIQUE WORD COUNT: " + outputMap.size());
+
         int totalWordCount = sortedMap.values().stream().mapToInt(i -> i.intValue()).sum();
+        // Works and does the same thing
+//        int totalWordCount = sortedMap.values().stream().mapToInt(i -> i.intValue()).reduce(0, (x,y) -> x+y);
+
         System.out.println("TOTAL WORD COUNT: " + totalWordCount);
 
-//        int totalWordCount = outputMap.values().stream().collect()
 
     }
 }
