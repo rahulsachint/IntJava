@@ -1,12 +1,11 @@
 package ttl.intjava.dao;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import ttl.intjava.domain.Student;
 import ttl.intjava.domain.Student.StudentBuilder;
 import ttl.intjava.utils.IdGen;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class InMemoryStudentDao implements BaseDAO {
 
@@ -16,16 +15,16 @@ public class InMemoryStudentDao implements BaseDAO {
 		Student s = new Student("Joe", Student.Status.FULL_TIME);
 		insertStudent(s);
 
-		s = new Student("Manoj", Student.Status.FULL_TIME);
+		s = new Student("Manoj", Student.Status.HIBERNATING);
 		insertStudent(s);
 
 		s = new Student("Charlene", Student.Status.FULL_TIME);
 		insertStudent(s);
 
-		s = new Student("Rajesh", Student.Status.FULL_TIME);
+		s = new Student("Rajesh", Student.Status.PART_TIME);
 		insertStudent(s);
 
-		s = new Student("Ana", Student.Status.FULL_TIME);
+		s = new Student("Ana", Student.Status.PART_TIME);
 		insertStudent(s);
 	}
 	
