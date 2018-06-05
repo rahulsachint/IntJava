@@ -1,9 +1,5 @@
 package ttl.intjava.app;
 
-import ttl.intjava.domain.Student;
-import ttl.intjava.domain.Student.Status;
-import ttl.intjava.service.StudentService;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -11,12 +7,16 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class RegApp {
+import ttl.intjava.domain.Student;
+import ttl.intjava.domain.Student.Status;
+import ttl.intjava.service.StudentService;
+
+public class RegAppStreams {
 
 	private int val;
 
 	public static void main(String[] args) {
-		RegApp ra = new RegApp();
+		RegAppStreams ra = new RegAppStreams();
 		ra.go();
 	}
 
@@ -104,8 +104,8 @@ public class RegApp {
 		
 		return result;
 	}
-
-
+	
+	
 	public <T> List<T> findWithChecker(List<T> list, Predicate<T> checker) {
 		List<T> result = new ArrayList<>();
 		
