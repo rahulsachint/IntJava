@@ -1,6 +1,6 @@
-package com.salesforce.training.dao;
+package ttl.intjava.dao;
 
-import com.salesforce.training.model.Customer;
+import ttl.intjava.domain.Customer;
 
 import java.util.HashMap;
 import java.util.Map;

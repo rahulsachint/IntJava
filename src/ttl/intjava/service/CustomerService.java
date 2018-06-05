@@ -1,7 +1,7 @@
-package com.salesforce.training.service;
+package ttl.intjava.service;
 
-import com.salesforce.training.dao.InMemoryCustomerDao;
-import com.salesforce.training.model.Customer;
+import ttl.intjava.dao.InMemoryCustomerDao;
+import ttl.intjava.domain.Customer;
 
 import java.util.Map;
 

@@ -1,13 +1,11 @@
-package com.salesforce.training.service;
+package ttl.intjava.test;
 
-import com.salesforce.training.model.Customer;
-import com.salesforce.training.service.CustomerService;
+import ttl.intjava.domain.Customer;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import ttl.intjava.service.CustomerService;
 
 import java.util.*;
-
-import static org.testng.Assert.*;
 
 /**
  * Created by rmadan on 6/4/18.

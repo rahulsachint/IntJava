@@ -1,4 +1,4 @@
-package com.salesforce.training.model;
+package ttl.intjava.domain;
 
 import java.util.Objects;
 
