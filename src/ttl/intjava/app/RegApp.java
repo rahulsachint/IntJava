@@ -1,9 +1,11 @@
 package ttl.intjava.app;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import ttl.intjava.domain.Student;
 import ttl.intjava.domain.Student.Status;
@@ -19,35 +21,90 @@ public class RegApp {
 	}
 
 	public void go() {
+		
+		StudentService ss = new StudentService();
+
+		List<Student> students = ss.getAllStudents();
+		
+		List<Student> name = students.stream().parallel()
+				.filter(s -> s.getName().length() > 5)
+				.collect(() -> {
+					return new ArrayList<>();
+				}, 
+				(list, nextItem) ->  {
+					list.add(nextItem);
+				},
+				(list1, list2) -> { 
+					list1.addAll(list2);	
+				});
+		
+		name.forEach(System.out::println);
+	}
+	public void go2() {
 
 		StudentService ss = new StudentService();
 
 		List<Student> students = ss.getAllStudents();
 		
-		List<Student> withM = findWithFirstName(students, "M");
-		Checker<Student> cfnm = new FirstNameChecker("M");
+		//List<String> names = getNames(students, (s) -> s.getName());
 		
-		//withM = findWithChecker(students, cfnm);
+		/*
+		List<String> name = students.stream()
+				.peek(s -> System.out.println("Peek 1 " + s))
+				.filter(s -> s.getName().length() > 5)
+				.peek(s -> System.out.println("Peek 2 " + s))
+				.map(s -> s.getName())
+				.peek(s -> System.out.println("Peek 3 " + s))
+				.collect(Collectors.toList());
+		*/
+		
+		Map<Integer, Student> map = students.stream()
+			.collect(Collectors.toMap(s -> s.getId(), s -> s));
 
-		withM = findWithChecker(students, (s) -> s.getName().startsWith("M"));
+		Map<Status, List<Student>> map2 = students.stream()
+			.collect(Collectors.groupingBy(s -> s.getStatus()));
 		
-		List<String> sList = Arrays.asList("One", "two", "Three" );
+		Map<Status, Long> map3 = students.stream()
+			.collect(Collectors.groupingBy(s -> s.getStatus(), Collectors.counting()));
+
+		map.forEach((k, v) -> System.out.println(k + ":" + v));
 		
-		List<String> result = findWithChecker(sList, (s) -> s.length() > 3);
-		
-		System.out.println("> 3" + result);
+		List<Integer> ids = getProperties(students, (s) -> s.getId());
 		
 		
-		withM = findWithChecker(students, (s) -> s.getStatus() == Status.FULL_TIME);
 		
-		withM.forEach(System.out::println);
-		
-		System.out.println("****************");
-		
-		List<Student> withS = findWithStatus(students, Status.FULL_TIME);
-		withS.forEach(System.out::println);
-		
+		//names.forEach(System.out::println);
+		//ids.forEach(System.out::println);
 	}
+	
+	public interface Checker<T>
+	{
+		public boolean test(T s);
+	}
+	public interface Extract<T, R> {
+		public R getProp(T s);
+	}
+
+	public <T, R> List<R> getProperties(List<T> list, Function<T, R> ex) {
+		List<R> result = new ArrayList<>();
+		
+		for(T s : list) {
+			result.add(ex.apply(s));
+		}
+		
+		return result;
+	}
+
+	public <T, R> List<R> getNames(List<T> list, Extract<T, R> ex) {
+		List<R> result = new ArrayList<>();
+		
+		for(T s : list) {
+			result.add(ex.getProp(s));
+		}
+		
+		return result;
+	}
+	
 	
 	public <T> List<T> findWithChecker(List<T> list, Predicate<T> checker) {
 		List<T> result = new ArrayList<>();
@@ -84,11 +141,6 @@ public class RegApp {
 		}
 		
 		return result;
-	}
-	
-	public interface Checker<T>
-	{
-		public boolean test(T s);
 	}
 	
 	class FirstNameChecker implements Checker<Student>
