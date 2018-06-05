@@ -21,6 +21,16 @@ public class CustomStatistics {
 		
 		this.count++;
 	}
+
+	public static void accumulateStatic(CustomStatistics cs, Data d) {
+		cs.maxX = Math.max(cs.maxX,  d.xValue);
+		cs.maxY = Math.max(cs.maxY,  d.yValue);
+		
+		cs.minX = Math.min(cs.minX, d.xValue);
+		cs.minY = Math.min(cs.minY, d.yValue);
+		
+		cs.count++;
+	}
 	
 	/**
 	 * Combine this CustomStatistics object with c2.

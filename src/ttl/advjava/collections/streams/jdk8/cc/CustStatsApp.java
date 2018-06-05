@@ -19,16 +19,28 @@ public class CustStatsApp {
 		);
 		
 		CustomStatistics result = data.stream()
-				.parallel()
 				.collect(() -> {
+					//Supplier
 					return new CustomStatistics();
 				},
 				(cs, d) -> {
+					//Accumulator
 					cs.accumulate(d);
 				}, 
 				(cs1, cs2) -> { 
+					//Combiner
 					cs1.combine(cs2);	
 				});
+
+		CustomStatistics result2 = data.stream()
+				.collect(() -> new CustomStatistics(), 
+						(cs, d) -> cs.accumulate(d), 
+						(cs1, cs2) -> cs1.combine(cs2));
+
+		CustomStatistics result3 = data.stream()
+				.collect(CustomStatistics::new,
+						CustomStatistics::accumulateStatic,
+						CustomStatistics::combine);
 
 		//Simpler way
 		result = data.stream()
