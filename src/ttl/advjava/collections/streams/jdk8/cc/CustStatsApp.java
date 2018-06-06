@@ -39,7 +39,7 @@ public class CustStatsApp {
 
 		CustomStatistics result3 = data.stream()
 				.collect(CustomStatistics::new,
-						CustomStatistics::accumulateStatic,
+						CustomStatistics::accumulate,
 						CustomStatistics::combine);
 
 		//Simpler way
